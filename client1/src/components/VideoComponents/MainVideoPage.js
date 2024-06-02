@@ -38,7 +38,7 @@ function MainVideoPage() {
                 const {peerConnection, remoteStream} = await createPeerConnection()
                 // we dont know who we are talking to yet..
                 // we will change it dynamically
-                dispatch(addStream("remote1",remoteStream));
+                dispatch(addStream("remote1",remoteStream,peerConnection));
 
                 // we finally have a peer connection, we can make an offer
             } catch (error) {
@@ -53,7 +53,7 @@ function MainVideoPage() {
         const fetchDecodedToken = async () => {
             try {
                 const resp = await axios.post(`https://localhost:8000/verify-link`, { token })
-                console.log(resp?.data);
+                // console.log(resp?.data);
                 setApptInfo(resp?.data)
                 
             } catch (error) {

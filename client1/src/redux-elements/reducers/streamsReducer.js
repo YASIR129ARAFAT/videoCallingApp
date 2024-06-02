@@ -2,7 +2,8 @@
     this holds all the streams as objects
     {
         who,
-        stream
+        stream,
+        peerConnection
     }
 */
 const initState = {}
