@@ -4,10 +4,15 @@ const https = require('https')
 const socketio = require('socket.io')
 const app = express()
 const cors = require("cors")
+const dotenv = require('dotenv');
 
 app.use(express.static('../public'))
 app.use(cors());
 app.use(express.json())
+
+dotenv.config({
+    path: '../.env'
+})
 
 const key = fs.readFileSync('./certs/cert.key')
 const cert = fs.readFileSync('./certs/cert.crt')
@@ -18,10 +23,10 @@ const io = socketio(expressServer,{
     cors:'*',
 })
 
-const port = 8000;
-expressServer.listen(port,()=>{
+
+expressServer.listen(process.env.BACKEND_PORT,()=>{
     console.log("listening...");
-    console.log(`https://localhost:${port}/`);
+    console.log(`https://localhost:${process.env.BACKEND_PORT}/`);
 })
 
 

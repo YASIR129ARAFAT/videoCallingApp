@@ -3,7 +3,7 @@ import HangupButton from './HangupButton'
 import socket from '../../webRTCutilities/socketConnection.js'
 import { useSelector } from 'react-redux';
 import VideoButton from './VideoButton/VideoButton.js';
-import AudioButton from './AuidoButton/AudioButton.js';
+import AudioButton from './AudioButton/AudioButton.js';
 
 const ActionButtons = ({openCloseChat,smallFeedEl,largeFeedEl})=>{
     const callStatus = useSelector(state=>state.callStatus);
@@ -44,7 +44,7 @@ const ActionButtons = ({openCloseChat,smallFeedEl,largeFeedEl})=>{
         <div id="menu-buttons" ref={menuButtons} className="row">
             {/* <i className="fa fa-microphone" style="font-size:48px;color:red"></i> */}
             <div className="left col-2">
-                <AudioButton></AudioButton>
+                <AudioButton smallFeedEl={smallFeedEl}></AudioButton>
                 <VideoButton smallFeedEl={smallFeedEl} largeFeedEl={largeFeedEl} ></VideoButton>
             </div>
 

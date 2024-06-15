@@ -7,23 +7,26 @@ import CallInfo from './CallInfo'
 import ActionButtons from './ActionButtons'
 import ChatWindow from './ChatWindow.js'
 import addStream from '../../redux-elements/actions/addStream.js'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import createPeerConnection from '../../webRTCutilities/createPeerConnection.js'
-import socket from '../../webRTCutilities/socketConnection.js'
+import socketConnection from '../../webRTCutilities/socketConnection.js'
+
 import updateCallStatus from '../../redux-elements/actions/updateCallStatus.js'
 function MainVideoPage() {
 
+
     const [searchParams, setSearchParams] = useSearchParams()
     const [apptInfo, setApptInfo] = useState({})
+    const callStatus = useSelector(state=>state.callStatus)
     const dispatch = useDispatch()
-
+    const streams = useSelector(state=>state?.streams)
     const smallFeedEl = useRef(null);
     const largeFeedEl = useRef(null);
     
     useEffect(()=>{
         const constraints = {
             video:true, // both cant be passed false at the same time
-            audio:false
+            audio:false 
         }
         const fetchUserMedia = async ()=>{
             try {
@@ -52,8 +55,9 @@ function MainVideoPage() {
 
         const fetchDecodedToken = async () => {
             try {
+                console.log("attemop started");
                 const resp = await axios.post(`https://localhost:8000/verify-link`, { token })
-                // console.log(resp?.data);
+                console.log(resp?.data);
                 setApptInfo(resp?.data)
                 
             } catch (error) {
@@ -62,6 +66,33 @@ function MainVideoPage() {
         }
         fetchDecodedToken()
     }, [])
+
+    useEffect(()=>{
+        async function createOfferAsync(){
+            try {
+                for(let s in streams){
+                    if(s!=="localStream"){
+                        const pc = streams[s].peerConnection;
+                        const offer = await pc.createOffer();
+
+                        const token = searchParams.get('token');
+                        const socket = socketConnection(token);
+
+                        socket.emit('newOffer',{offer,apptInfo})
+                    }
+                }
+                dispatch(updateCallStatus("haveCreatedOffer",true))
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if(callStatus?.audio === "enabled" && callStatus?.video === "enabled" 
+                                                        && !callStatus?.haveCreatedOffer){
+                                             
+            createOfferAsync()
+            
+        }
+    },[callStatus?.audio,callStatus?.video,callStatus?.haveCreatedOffer])
 
     return (
         <div className="main-video-page">

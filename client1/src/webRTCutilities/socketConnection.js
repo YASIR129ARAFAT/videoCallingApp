@@ -1,5 +1,19 @@
-import {io} from 'socket.io-client'
+import { io } from "socket.io-client";
 
-const socket = io.connect("https://localhost:8000")
+let socket;
+const socketConnection = (token) => {
+    //if socket connection is alredy made then just return it else form a aconnection
+    if (socket && socket?.connected) {
+        return socket;
+    } else {
+        socket = io.connect("https://localhost:8000", {
+            auth: {
+                token,
+            },
+        });
+        return socket;
+    }
 
-export default socket;
+};
+
+export default socketConnection;
