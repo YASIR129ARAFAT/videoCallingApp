@@ -1,8 +1,9 @@
 
 import './App.css';
 
-import HomePage from './components/VideoComponents/MainVideoPage.js';
+import MainVideoPage from './components/VideoComponents/MainVideoPage.js';
 
+import ProMainVideoPage from './components/VideoComponents/ProMainVideoPage.js';
 import Dashboard from './components/Dashboard/Dashboard.js';
 
 
@@ -17,7 +18,8 @@ import {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" >
-      <Route path="" element={<HomePage />} />
+      <Route path="/join-video" element={<MainVideoPage />} />
+      <Route path="/join-video-pro" element={<ProMainVideoPage />} />
       <Route path="dashboard" element={<Dashboard />} />
       
     </Route>

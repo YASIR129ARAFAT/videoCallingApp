@@ -21,7 +21,7 @@ const CallInfo = ({apptInfo})=>{
     return(
         <div className="call-info">
             <h1>
-                {apptInfo?.name} has been notified.<br />
+                {apptInfo?.fullname} has been notified.<br />
                 Your appointment is {momentText}.
             </h1>
         </div>

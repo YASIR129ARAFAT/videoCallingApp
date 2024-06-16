@@ -1,30 +1,47 @@
 import axios from 'axios';
 import './Dashboard.css'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
-
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import moment from 'moment';
 import socketConnection from '../../webRTCutilities/socketConnection';
+import socketListeners from '../../webRTCutilities/socketListeners';
+import { useDispatch } from 'react-redux';
 
 
 const Dashboard = () => {
-    const [searchParams,setSearchParams] = useSearchParams();
-    const [apttInfo,setApptInfo] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [apptInfo, setApptInfo] = useState([]);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     useEffect(() => {
         const token = searchParams.get('token');
-        socketConnection(token);
-        const fetchDecodedToken = async () => {
-            try {
-                const resp = await axios.post(`https://localhost:8000/verify-link`, { token })
-                console.log(resp?.data);
-                setApptInfo(resp?.data)
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchDecodedToken()
+        const socket = socketConnection(token);
+
+        // const fetchDecodedToken = async () => {
+        //     try {
+        //         const resp = await axios.post(`https://localhost:${process.env.REACT_APP_BACKEND_PORT}/verify-link`, { token })
+        //         console.log(resp?.data);
+        //         setApptInfo(resp?.data)
+
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
+        // fetchDecodedToken()
+
+        socketListeners(socket, setApptInfo,dispatch);
     }, [])
-    
+
+    const joinCall = (appt)=>{
+        console.log(appt);
+        const token = searchParams.get("token");
+
+        const url = `/join-video-pro?token=${token}&uniqueId=${appt?.uniqueId}&client=${appt?.clientName}`
+        navigate(url);
+
+
+    }
+
     return (
         <div className="container">
             <div className="row">
@@ -62,9 +79,32 @@ const Dashboard = () => {
                             <div className="col-6">
                                 <div className="dash-box clients-board blue-bg">
                                     <h4>Coming Appointments</h4>
-                                    <li className="client">Akash Patel - 8-10-23 11am <div className="waiting-text d-inline-block">Waiting</div><button className="btn btn-danger join-btn">Join</button></li>
-                                    <li className="client">Jim Jones - 8-10-23, 2pm</li>
-                                    <li className="client">Mike Williams - 8-10-23 3pm</li>
+                                    {
+                                        apptInfo.map((ele,ind) => {
+                                            return (
+                                                <div key={ind}>
+                                                    <li className="client">
+                                                        {ele?.clientName} - {moment(ele?.apptDate).format()} 
+                                                        {ele?.waiting && <>
+                                                            <div className="waiting-text d-inline-block">
+                                                                Waiting
+                                                            </div>
+                                                            <button 
+                                                                className="btn btn-danger join-btn"
+                                                                onClick={()=>{
+                                                                    joinCall(ele)
+                                                                }}
+                                                            >
+                                                                Join
+                                                            </button>
+                                                        </>}
+                                                    </li>
+                                                </div>
+                                            )
+                                        })
+                                    }
+
+                                    
                                 </div>
 
                             </div>

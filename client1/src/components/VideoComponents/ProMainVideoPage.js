@@ -12,11 +12,12 @@ import createPeerConnection from '../../webRTCutilities/createPeerConnection.js'
 import socketConnection from '../../webRTCutilities/socketConnection.js'
 
 import updateCallStatus from '../../redux-elements/actions/updateCallStatus.js'
-function MainVideoPage() {
+function ProMainVideoPage() {
 
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [apptInfo, setApptInfo] = useState({})
+    const [clientName, setClientName] = useState("")
     const callStatus = useSelector(state => state.callStatus)
     const dispatch = useDispatch()
     const streams = useSelector(state => state?.streams)
@@ -53,7 +54,8 @@ function MainVideoPage() {
     }, [])
     useEffect(() => {
         const token = searchParams.get('token');
-
+        setClientName(searchParams.get("client"));
+        // console.log(searchParams.get("client"));
         const fetchDecodedToken = async () => {
             try {
                 // console.log("attempt started");
@@ -70,34 +72,75 @@ function MainVideoPage() {
         fetchDecodedToken()
     }, [])
 
-    useEffect(() => {
-        async function createOfferAsync() {
+    useEffect(()=>{
+        async function setOffer(){
             try {
-                for (let s in streams) {
-                    if (s !== "localStream") {
+                for(const s in streams){
+                    if(s !== 'localStream'){
                         const pc = streams[s].peerConnection;
-                        const offer = await pc.createOffer();
-                        await pc.setLocalDescription(offer)
-
-                        const token = searchParams.get('token');
-                        const socket = socketConnection(token);
-
-                        console.log("djhfbhdsg");
-                        socket.emit('newOffer', { offer, apptInfo })
+                        await pc.setRemoteDescription(callStatus?.offer)
+                        console.log(pc.signalingState);
                     }
                 }
-                dispatch(updateCallStatus("haveCreatedOffer", true))
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if(callStatus?.offer && streams?.remote1 && streams?.remote1?.peerConnection){
+            setOffer()
+        }
+    },[callStatus?.offer,streams?.remote1])
+
+    useEffect(() => {
+        async function createAnswerAsync() {
+            try {
+                for(const s in streams){
+                    if(s !== 'localStream'){
+                        const pc = streams[s].peerConnection;
+                        const answer = await pc.createAnswer()
+                        await pc.setLocalDescription(answer)
+                        console.log(pc.signalingstate);
+                    }
+                }
+                
             } catch (error) {
                 console.log(error);
             }
         }
         if (callStatus?.audio === "enabled" && callStatus?.video === "enabled"
-            && !callStatus?.haveCreatedOffer) {
-
-            createOfferAsync()
-
+                                                            && !callStatus?.haveCreatedAnswer) {
+                createAnswerAsync()
         }
-    }, [callStatus?.audio, callStatus?.video, callStatus?.haveCreatedOffer])
+    }, [callStatus?.audio, callStatus?.video, callStatus?.haveCreatedAnswer])
+
+    // useEffect(() => {
+    //     async function createOfferAsync() {
+    //         try {
+    //             for (let s in streams) {
+    //                 if (s !== "localStream") {
+    //                     const pc = streams[s].peerConnection;
+    //                     const offer = await pc.createOffer();
+
+    //                     const token = searchParams.get('token');
+    //                     const socket = socketConnection(token);
+
+    //                     console.log("djhfbhdsg");
+    //                     socket.emit('newOffer', { offer, apptInfo })
+    //                 }
+    //             }
+    //             dispatch(updateCallStatus("haveCreatedOffer", true))
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     if (callStatus?.audio === "enabled" && callStatus?.video === "enabled"
+    //         && !callStatus?.haveCreatedOffer) {
+
+    //         createOfferAsync()
+
+    //     }
+    // }, [callStatus?.audio, callStatus?.video, callStatus?.haveCreatedOffer])
 
     return (
         <div className="main-video-page">
@@ -108,7 +151,16 @@ function MainVideoPage() {
 
                 <video id="own-feed" ref={smallFeedEl} autoPlay controls playsInline></video>
 
-                {apptInfo?.fullname ? <CallInfo apptInfo={apptInfo} /> : <></>}
+                {
+                    (callStatus?.audio === "off" || callStatus?.video === "off") ? (
+                            <div className="call-info">
+                                <h1 className='text-center'>
+                                    {clientName} is waiting<br />
+                                    turn on your camera and mic to join.
+                                </h1>
+                            </div>
+                    ) : <></>
+                }
 
                 <ChatWindow />
             </div>
@@ -118,4 +170,4 @@ function MainVideoPage() {
     )
 }
 
-export default MainVideoPage
+export default ProMainVideoPage

@@ -6,7 +6,7 @@ const socketConnection = (token) => {
     if (socket && socket?.connected) {
         return socket;
     } else {
-        socket = io.connect("https://localhost:8000", {
+        socket = io.connect(`https://localhost:${process.env.REACT_APP_BACKEND_PORT}`, {
             auth: {
                 token,
             },

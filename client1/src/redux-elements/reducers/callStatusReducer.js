@@ -7,6 +7,7 @@ const initState = {
     shareScreen: false, 
     haveMedia: false, //is there a localStream, has getUserMedia been run
     haveCreatedOffer: false, // if offer is already created then we will not create it again
+    haveCreatedAnswer: false, // if answer is already created then we will not create it again
 }
 
 export default (state = initState, action)=>{
