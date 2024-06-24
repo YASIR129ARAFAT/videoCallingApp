@@ -6,8 +6,8 @@ function startLocalVideoStream(streams,dispatch) {
     // console.log("check startLocalVideoStreams");
     const localStream = streams?.localStream;
 
-    console.log("streams: ")
-    console.log(streams);
+    // console.log("streams: ")
+    // console.log(streams);
     
     for(const s in streams){ //s is the key
 

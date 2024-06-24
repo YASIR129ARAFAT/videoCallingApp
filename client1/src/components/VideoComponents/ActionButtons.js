@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import HangupButton from './HangupButton'
-import socket from '../../webRTCutilities/socketConnection.js'
 import { useSelector } from 'react-redux';
 import VideoButton from './VideoButton/VideoButton.js';
 import AudioButton from './AudioButton/AudioButton.js';

@@ -13,6 +13,7 @@ const allKnownOffers = { // this will be an object that will contain all appt as
     //answerer ice candidates
 }
 const connectedProfessionals = []
+const connectedClients = []
 io.on('connection', (socket) => {
     console.log("socket connected...");
     const token = socket.handshake.auth?.token
@@ -26,6 +27,7 @@ io.on('connection', (socket) => {
         socket.disconnect()
         return
     }
+    console.log("decoded: ",decodedData);
 
     const { fullname, proId } = decodedData;
 
@@ -42,7 +44,7 @@ io.on('connection', (socket) => {
         }
         else {
             connectedProfessionals.push({
-                socketId: socket?.id,
+                socketId: socket?.id, //socketid of the professional
                 fullname,
                 proId
             })
@@ -50,10 +52,10 @@ io.on('connection', (socket) => {
 
         //prepare all appt data related to this professional to emit
         // this data will be shown on frontend of this professional
-
         const data = app.get("proffesionalsAppt")
                         .filter((ele) => ele?.professionalsFullName === fullname);
-            socket.emit('apptData', data)
+                        
+        socket.emit('apptData', data)
 
         
 
@@ -67,10 +69,62 @@ io.on('connection', (socket) => {
 
     }
     else {
+
         //this is a client
+        const {professionalsFullName,uniqueId,apptDate,clientsName} = decodedData;
+        const client =connectedClients.find(ele=>ele?.uniqueId == uniqueId); // string and NUmber comparison
+
+        if(client){
+            //if client reconnects then change the socket id only
+            client.socketId = socket?.id
+        }
+        else{
+            connectedClients.push({
+                clientsName,
+                uniqueId,
+                professionalMeetingWith: professionalsFullName,
+                socketId:socket.id, //socket id of the client
+            })
+        }
+
+        // it might be possible that the client disconnects after sending the offer or clinet diconnected when professional sent answer
+        // to deal with that we will save the answer in allKnownOffers
+        // and whenever a client connects we will check if an answer already exits for him/her corresponding to the uniqueId client came with
+
+        const answerForThisClient = allKnownOffers[uniqueId]
+        if(answerForThisClient){
+            //if answer wrt to this clients id exist then
+            // emit to this client
+            io.to(socket.id).emit("answerToClient",answerForThisClient.answer);
+        }
+
     }
 
+    socket.on("newAnswer",({answer,uniqueId})=>{
+        // console.log(answer);
+        // console.log("uniqueId",uniqueId);
+
+        // emit this answer to the client who sent the offer
+        const clientToConnectTo = connectedClients.find(ele=>ele.uniqueId == uniqueId)
+        if(clientToConnectTo){
+            socket.to(clientToConnectTo.socketId).emit("answerToClient",answer);
+        }
+
+        // we need to update the answer of this offer in allKnownOffers
+        const knownOffer = allKnownOffers[uniqueId]
+
+        if(knownOffer){
+            knownOffer.answer = answer;
+        }
+
+        // it might be possible that the client disconnects after sending the offer or clinet diconnected when professional sent answer
+        // to deal with that we will save the answer in allKnownOffers
+        // and whenever a client connects we will check if an answer already exits for him/her corresponding to the uniqueId client came with
+
+    })
+
     socket.on('newOffer', ({ offer, apptInfo }) => {
+        console.log("id: ",socket?.id);
         // offer -> sdp/type
         // apptInfo contains the details of appt along with a unique uuid
         // this will help in unique indentification of appt
@@ -86,13 +140,8 @@ io.on('connection', (socket) => {
             answerIceCandidates: [],
         }
 
-        // console.log("allKnownOffers");
-        // console.log(allKnownOffers);
 
-        // we need to emit newOfferWaiting to the professional related to the offer
-        const professional = connectedProfessionals.find((ele) => {
-            return ele.fullname === apptInfo?.professionalsFullName
-        });
+        
 
         // make waiting for the this appt true
         const proffesionalsAppt = app.get("proffesionalsAppt");
@@ -104,9 +153,13 @@ io.on('connection', (socket) => {
             appt.waiting = true; // this will mutate the original professionalsAppt as well
         }
 
-        //find the socket id of that person to emoit
+        // we need to emit newOfferWaiting to the professional related to the offer
+        const professional = connectedProfessionals.find((ele) => {
+            return ele.fullname === apptInfo?.professionalsFullName
+        });
+        //find the socket id of that person to emit
         if (professional) {
-            //only emit if the petson is still connected
+            //only emit if the person is still connected
             const socketId = professional.socketId;
             socket.to(socketId).emit("newOfferWaiting", allKnownOffers[apptInfo?.uniqueId]);
 

@@ -100,7 +100,18 @@ function ProMainVideoPage() {
                         const pc = streams[s].peerConnection;
                         const answer = await pc.createAnswer()
                         await pc.setLocalDescription(answer)
-                        console.log(pc.signalingstate);
+                        // console.log(pc.signalingstate);
+
+                        dispatch(updateCallStatus("haveCreatedOffer",true));
+                        dispatch(updateCallStatus("answer",answer));
+                        
+                        const token = searchParams.get('token');
+                        const uniqueId = searchParams.get('uniqueId');
+                        console.log("uniqueId ",uniqueId);
+
+                        const socket = socketConnection(token)
+
+                        socket.emit("newAnswer",{answer,uniqueId});
                     }
                 }
                 

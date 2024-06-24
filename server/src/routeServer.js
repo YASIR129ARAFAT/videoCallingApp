@@ -43,6 +43,7 @@ app.get('/user-link', async (req, res) => {
         const apptData = proffesionalsAppt[0];
 
         // proffesionalsAppt.push(apptData);
+        console.log("apptData: ",apptData);
 
         const token = await jwt.sign(apptData, process.env.SOCKET_TOKEN_SECRET);
         res.send(`<a href='https://localhost:${process.env.FRONTEND_PORT}/join-video?token=${token}' target='_blank'>Meet here</a>`)
@@ -66,7 +67,6 @@ app.post('/verify-link', async (req, res) => {
     }
 })
 
-console.log("dcds");
 
 app.get('/pro-token', async (req, res) => {
     try {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import moment from 'moment';
 import socketConnection from '../../webRTCutilities/socketConnection';
-import socketListeners from '../../webRTCutilities/socketListeners';
+import proSocketListeners from '../../webRTCutilities/professionalSocketListeners.js';
 import { useDispatch } from 'react-redux';
 
 
@@ -13,31 +13,19 @@ const Dashboard = () => {
     const [apptInfo, setApptInfo] = useState([]);
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
     useEffect(() => {
         const token = searchParams.get('token');
         const socket = socketConnection(token);
 
-        // const fetchDecodedToken = async () => {
-        //     try {
-        //         const resp = await axios.post(`https://localhost:${process.env.REACT_APP_BACKEND_PORT}/verify-link`, { token })
-        //         console.log(resp?.data);
-        //         setApptInfo(resp?.data)
-
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }
-        // fetchDecodedToken()
-
-        socketListeners(socket, setApptInfo,dispatch);
+        proSocketListeners(socket, setApptInfo,dispatch); // here we are listening for apptData event to get the appointments of the professional
     }, [])
 
     const joinCall = (appt)=>{
         console.log(appt);
         const token = searchParams.get("token");
 
-        const url = `/join-video-pro?token=${token}&uniqueId=${appt?.uniqueId}&client=${appt?.clientName}`
-        navigate(url);
+        navigate(`/join-video-pro?token=${token}&uniqueId=${appt?.uniqueId}&client=${appt?.clientName}`);
 
 
     }

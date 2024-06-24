@@ -12,6 +12,7 @@ import createPeerConnection from '../../webRTCutilities/createPeerConnection.js'
 import socketConnection from '../../webRTCutilities/socketConnection.js'
 
 import updateCallStatus from '../../redux-elements/actions/updateCallStatus.js'
+import clientSocketListeners from '../../webRTCutilities/clientSocketListeners.js'
 function MainVideoPage() {
 
 
@@ -84,6 +85,8 @@ function MainVideoPage() {
 
                         console.log("djhfbhdsg");
                         socket.emit('newOffer', { offer, apptInfo })
+
+                        clientSocketListeners(socket,dispatch);
                     }
                 }
                 dispatch(updateCallStatus("haveCreatedOffer", true))
@@ -99,6 +102,21 @@ function MainVideoPage() {
         }
     }, [callStatus?.audio, callStatus?.video, callStatus?.haveCreatedOffer])
 
+    useEffect(()=>{
+        //look for the answer in callStatus if it exist
+        // then we will set the remote description 
+        async function addAnswer(){
+            for(const s in streams){
+                if(s !== "localStream"){
+                    const pc = streams[s].peerConnection;
+                    await pc.setRemoteDescription(callStatus?.answer)
+                    console.log(`answer added!!`);
+                }
+            }
+        }
+        if(callStatus?.answer)
+            addAnswer()
+    },[callStatus?.answer])
     return (
         <div className="main-video-page">
             <div className="video-chat-wrapper">
