@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import updateCallStatus from "../redux-elements/actions/updateCallStatus";
 
-function proSocketListeners(socket,setApptInfo,dispatch){
+function proDashboardSocketListeners(socket,setApptInfo,dispatch){
     socket.on('apptData',(data)=>{
         // apptInfo will be a state which will be rendered to display the appts of the professional
         console.log("recieved");
@@ -14,4 +14,10 @@ function proSocketListeners(socket,setApptInfo,dispatch){
     })
 }
 
-export default proSocketListeners
+
+function proVideoSocketListeners(socket,addIceCandidatesToPc){
+    socket.on("iceToClient",iceCandidate=>{
+        addIceCandidatesToPc(iceCandidate)
+    })
+}
+export default {proDashboardSocketListeners,proVideoSocketListeners}

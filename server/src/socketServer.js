@@ -15,7 +15,7 @@ const allKnownOffers = { // this will be an object that will contain all appt as
 const connectedProfessionals = []
 const connectedClients = []
 io.on('connection', (socket) => {
-    console.log("socket connected...");
+    // console.log("socket connected...");
     const token = socket.handshake.auth?.token
 
     let decodedData;
@@ -137,7 +137,7 @@ io.on('connection', (socket) => {
             offer,
             answer: null,
             offererIceCandidates: [],
-            answerIceCandidates: [],
+            answererIceCandidates: [],
         }
 
 
@@ -171,16 +171,59 @@ io.on('connection', (socket) => {
 
     })
 
-    socket.on('iceToServer',({uniqueId,userType,iceCandidate})=>{
+    socket.on('getIce',(uniqueId,userType,ackFunc)=>{
+        let iceCandidates = [];
+        const offer = allKnownOffers[uniqueId];
+        if(offer){
+            if(userType === "professional"){
+                // console.log("proff");
+                // console.log(offer.offererIceCandidates);
+                iceCandidates  = offer.offererIceCandidates
+            }
+            else if(userType === 'client'){
+                // console.log("client");
+                // console.log(offer.answererIceCandidates);
+                iceCandidates = offer.answererIceCandidates;
+            }
+            ackFunc(iceCandidates); // sending back the iceCandidates to frontEnd
+        }
+        // console.log("herer");
+    })
+
+    socket.on('iceToServer',({iceCandidate,userType,uniqueId})=>{
         //now update the allKnownOffer for corresponding offer using uniqueId
         const offerToAddIce = allKnownOffers[uniqueId];
+        // console.log(offerToAddIce);
         if(offerToAddIce ){
+            console.log("iceToServer");
             if(userType === "professional"){
+                // console.log("pro");
                 offerToAddIce.answererIceCandidates.push(iceCandidate)
+
+
+                const socketToSendTo = connectedClients.find(ele=>{
+                    return ele.uniqueId == uniqueId
+                })
+
+                if(socketToSendTo){
+                    socket.to(socketToSendTo.socketId).emit("iceToClient",iceCandidate)
+                }
             }
-            else{
+            else if(userType === "client"){
+                // console.log("client");
                 offerToAddIce.offererIceCandidates.push(iceCandidate)
+
+                const socketToSendTo = connectedProfessionals.find(ele=>{
+                    return ele.fullname === decodedData?.fullname
+                })
+
+                if(socketToSendTo){
+                    socket.to(socketToSendTo.socketId).emit("iceToClient",iceCandidate)
+                }
             }
         }
+        // console.log("==========");
+        // console.log(allKnownOffers[uniqueId].answererIceCandidates);
+        // console.log("==========");
     })
 })

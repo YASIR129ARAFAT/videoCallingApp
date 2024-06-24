@@ -10,11 +10,12 @@ import addStream from '../../redux-elements/actions/addStream.js'
 import { useDispatch, useSelector } from 'react-redux'
 import createPeerConnection from '../../webRTCutilities/createPeerConnection.js'
 import socketConnection from '../../webRTCutilities/socketConnection.js'
-
 import updateCallStatus from '../../redux-elements/actions/updateCallStatus.js'
 import clientSocketListeners from '../../webRTCutilities/clientSocketListeners.js'
-function MainVideoPage() {
 
+
+
+function MainVideoPage() {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [apptInfo, setApptInfo] = useState({})
@@ -24,10 +25,12 @@ function MainVideoPage() {
     const smallFeedEl = useRef(null);
     const largeFeedEl = useRef(null);
     const uniqueIdRef = useRef(null)
+    const streamsRef = useRef(null)
+    const [showCallInfo,setShowCallInfo] = useState(true);
 
     useEffect(() => {
         const constraints = {
-            video: true, // both cant be passed false at the same time
+            video: true, // both can't be passed false at the same time
             audio: false
         }
         const fetchUserMedia = async () => {
@@ -48,12 +51,15 @@ function MainVideoPage() {
                 dispatch(addStream("remote1", remoteStream, peerConnection));
 
                 // we finally have a peer connection, we can make an offer
+
+                largeFeedEl.current.srcObject = remoteStream
             } catch (error) {
                 console.log(error);
             }
         }
         fetchUserMedia()
     }, [])
+
     useEffect(() => {
         const token = searchParams.get('token');
 
@@ -91,7 +97,7 @@ function MainVideoPage() {
                         console.log("djhfbhdsg");
                         socket.emit('newOffer', { offer, apptInfo })
 
-                        clientSocketListeners(socket,dispatch);
+                        // clientSocketListeners(socket,dispatch);
                     }
                 }
                 dispatch(updateCallStatus("haveCreatedOffer", true))
@@ -123,6 +129,31 @@ function MainVideoPage() {
             addAnswer()
     },[callStatus?.answer])
 
+    useEffect(()=>{
+        // we cant update util remote1 is set
+        if(streams?.remote1){
+            streamsRef.current = streams
+        }
+    },[streams])
+
+    const addIceCandidatesToPc = (iceCandidate)=>{
+        for(const s in streamsRef.current){
+            if(s!=="localStream"){
+                const pc = streamsRef.current[s].peerConnection
+                pc.addIceCandidate(iceCandidate);
+                console.log("ice candidate added to client");
+                setShowCallInfo(false)
+            }
+        }
+    }
+
+    useEffect(() => {
+        const token = searchParams.get('token');
+        const socket = socketConnection(token);
+
+        clientSocketListeners(socket,dispatch,addIceCandidatesToPc); // here we are listening for apptData event to get the appointments of the professional
+    }, [])
+
     const addIce = (iceCandidate)=>{
         //emit icecandidates to the server (not professional)
         const token = searchParams.get('token')
@@ -137,8 +168,8 @@ function MainVideoPage() {
             //that's why we will use useRef hook
             uniqueId:uniqueIdRef?.current
             // this will keep uniqueId updated without rerendring
-
         })
+        
 
     }
     return (
@@ -146,11 +177,11 @@ function MainVideoPage() {
             <div className="video-chat-wrapper">
                 {/* Div to hold our remote video, our local video, and our chat window*/}
 
-                <video id="large-feed" ref={largeFeedEl} autoPlay controls playsInline></video>
+                <video id="large-feed" ref={largeFeedEl} autoPlay controls  playsInline></video>
 
-                <video id="own-feed" ref={smallFeedEl} autoPlay controls playsInline></video>
+                <video id="own-feed" ref={smallFeedEl} autoPlay controls  playsInline></video>
 
-                {apptInfo?.fullname ? <CallInfo apptInfo={apptInfo} /> : <></>}
+                {showCallInfo ? <CallInfo apptInfo={apptInfo} /> : <></>}
 
                 <ChatWindow />
             </div>

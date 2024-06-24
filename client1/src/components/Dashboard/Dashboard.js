@@ -18,7 +18,7 @@ const Dashboard = () => {
         const token = searchParams.get('token');
         const socket = socketConnection(token);
 
-        proSocketListeners(socket, setApptInfo,dispatch); // here we are listening for apptData event to get the appointments of the professional
+        proSocketListeners.proDashboardSocketListeners(socket, setApptInfo,dispatch); // here we are listening for apptData event to get the appointments of the professional
     }, [])
 
     const joinCall = (appt)=>{

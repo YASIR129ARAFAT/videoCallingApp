@@ -16,8 +16,17 @@ const createPeerConnection =(addIce)=>{
             // console.log(e);
             if(e.candidate){
                addIce(e.candidate)// a function that will help in adding ice
-               // this abstraction is done to escape the sending of multiple props from react to here
+            //    this abstraction is done to escape the sending of multiple props from react to here
             }
+        })
+
+        peerConnection.addEventListener("track",(e)=>{
+            console.log("got a track from remote..");
+            e.streams[0].getTracks().forEach(track=>{
+                remoteStream.addTrack(track,remoteStream)
+
+                console.log("fingers crossed");
+            })
         })
 
         resolve({

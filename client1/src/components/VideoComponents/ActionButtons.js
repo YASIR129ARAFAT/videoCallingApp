@@ -44,7 +44,9 @@ const ActionButtons = ({openCloseChat,smallFeedEl,largeFeedEl})=>{
             {/* <i className="fa fa-microphone" style="font-size:48px;color:red"></i> */}
             <div className="left col-2 flex flex-row">
                 <AudioButton smallFeedEl={smallFeedEl}></AudioButton>
-                <VideoButton smallFeedEl={smallFeedEl} largeFeedEl={largeFeedEl} ></VideoButton>
+                { callStatus.audio !=="off" &&
+                    <VideoButton smallFeedEl={smallFeedEl} largeFeedEl={largeFeedEl} ></VideoButton>
+                }
             </div>
 
             <div className="col-8 text-center">
@@ -70,7 +72,7 @@ const ActionButtons = ({openCloseChat,smallFeedEl,largeFeedEl})=>{
             </div>  
 
             <div className="center justify-center text-end col-2">
-                <HangupButton/>
+                <HangupButton smallFeedEl={smallFeedEl} largeFeedEl={largeFeedEl} />
             </div>
         </div> 
     )
