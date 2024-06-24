@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
         socket.disconnect()
         return
     }
-    console.log("decoded: ",decodedData);
+    // console.log("decoded: ",decodedData);
 
     const { fullname, proId } = decodedData;
 
@@ -124,7 +124,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('newOffer', ({ offer, apptInfo }) => {
-        console.log("id: ",socket?.id);
+        // console.log("id: ",socket?.id);
         // offer -> sdp/type
         // apptInfo contains the details of appt along with a unique uuid
         // this will help in unique indentification of appt
@@ -169,5 +169,18 @@ io.on('connection', (socket) => {
 
         }
 
+    })
+
+    socket.on('iceToServer',({uniqueId,userType,iceCandidate})=>{
+        //now update the allKnownOffer for corresponding offer using uniqueId
+        const offerToAddIce = allKnownOffers[uniqueId];
+        if(offerToAddIce ){
+            if(userType === "professional"){
+                offerToAddIce.answererIceCandidates.push(iceCandidate)
+            }
+            else{
+                offerToAddIce.offererIceCandidates.push(iceCandidate)
+            }
+        }
     })
 })

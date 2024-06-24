@@ -1,5 +1,5 @@
 import peerConfiguration from "./stunServers.js";
-const createPeerConnection =()=>{
+const createPeerConnection =(addIce)=>{
     return new Promise(async(resolve, reject) => {
         const peerConnection = await new RTCPeerConnection();
         // rtc peer connection is the connection to the peer 
@@ -13,8 +13,10 @@ const createPeerConnection =()=>{
         })
         peerConnection.addEventListener('icecandidate',e=>{
             console.log("Found ice candidate...")
+            // console.log(e);
             if(e.candidate){
-               
+               addIce(e.candidate)// a function that will help in adding ice
+               // this abstraction is done to escape the sending of multiple props from react to here
             }
         })
 

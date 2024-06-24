@@ -23,7 +23,7 @@ function MainVideoPage() {
     const streams = useSelector(state => state?.streams)
     const smallFeedEl = useRef(null);
     const largeFeedEl = useRef(null);
-
+    const uniqueIdRef = useRef(null)
 
     useEffect(() => {
         const constraints = {
@@ -40,7 +40,9 @@ function MainVideoPage() {
 
                 dispatch(addStream("localStream", stream));
 
-                const { peerConnection, remoteStream } = await createPeerConnection()
+                //addIce is defined below. It helps in addiding ice candidates
+                const { peerConnection, remoteStream } = await createPeerConnection(addIce)
+
                 // we dont know who we are talking to yet..
                 // we will change it dynamically
                 dispatch(addStream("remote1", remoteStream, peerConnection));
@@ -63,6 +65,9 @@ function MainVideoPage() {
                 console.log(resp?.data);
 
                 setApptInfo(resp?.data)
+
+                // set the uniqueIDref here so that it can change automatically
+                uniqueIdRef.current = resp?.data?.uniqueId
 
             } catch (error) {
                 console.log(error);
@@ -117,6 +122,25 @@ function MainVideoPage() {
         if(callStatus?.answer)
             addAnswer()
     },[callStatus?.answer])
+
+    const addIce = (iceCandidate)=>{
+        //emit icecandidates to the server (not professional)
+        const token = searchParams.get('token')
+        const socket = socketConnection(token);
+        // console.log("ref:: ",uniqueIdRef?.current);
+
+        socket.emit('iceToServer',{
+            iceCandidate,
+            userType:"client",
+            // uniqueId:apptInfo?.uniqueId, // this will not work as uiqueId might change
+            // we need a way to auto update uniqueId, 
+            //that's why we will use useRef hook
+            uniqueId:uniqueIdRef?.current
+            // this will keep uniqueId updated without rerendring
+
+        })
+
+    }
     return (
         <div className="main-video-page">
             <div className="video-chat-wrapper">

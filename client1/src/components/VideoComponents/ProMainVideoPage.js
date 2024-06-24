@@ -40,7 +40,7 @@ function ProMainVideoPage() {
 
                 dispatch(addStream("localStream", stream));
 
-                const { peerConnection, remoteStream } = await createPeerConnection()
+                const { peerConnection, remoteStream } = await createPeerConnection(addIce)
                 // we dont know who we are talking to yet..
                 // we will change it dynamically
                 dispatch(addStream("remote1", remoteStream, peerConnection));
@@ -153,6 +153,19 @@ function ProMainVideoPage() {
     //     }
     // }, [callStatus?.audio, callStatus?.video, callStatus?.haveCreatedOffer])
 
+    const addIce = (iceCandidate)=>{
+        //emit icecandidates to the server (not client)
+        const token = searchParams.get('token')
+        const uniqueId = searchParams.get('uniqueId')
+        const socket = socketConnection(token);
+
+        socket.emit('iceToServer',{
+            iceCandidate,
+            userType:"professional",
+            uniqueId
+        })
+
+    }
     return (
         <div className="main-video-page">
             <div className="video-chat-wrapper">
