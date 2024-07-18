@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const { v4: uuidv4 } = require("uuid")
 
 
-console.log("dcds");
+// console.log("dcds");
 
 app.get('/', (req, res) => {
     res.send("hello")
