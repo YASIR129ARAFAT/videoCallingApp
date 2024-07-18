@@ -13,6 +13,9 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import LoginPage from './pages/LoginPage.jsx';
+import RegistrationPage from './pages/RegistrationPage.jsx';
+
 // import socket from './webRTCutilities/socketConnection.js';
 
 const router = createBrowserRouter(
@@ -21,6 +24,8 @@ const router = createBrowserRouter(
       <Route path="/join-video" element={<MainVideoPage />} />
       <Route path="/join-video-pro" element={<ProMainVideoPage />} />
       <Route path="dashboard" element={<Dashboard />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegistrationPage />} />
       
     </Route>
   )

@@ -23,7 +23,18 @@ const io = socketio(expressServer,{
     cors:'*',
 })
 
+//---------
 
+const { authMiddleware } = require('./middlewares/auth.middleware.js')
+
+const { userRoute } = require('./routes/user.route.js')
+const { authRoute } = require('./routes/auth.route.js');
+
+app.use('/auth', authRoute);
+app.use('/api/user',authMiddleware, userRoute);
+
+
+//---------
 expressServer.listen(process.env.BACKEND_PORT,()=>{
     console.log("listening...");
     console.log(`https://localhost:${process.env.BACKEND_PORT}/`);
