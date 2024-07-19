@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import TextArea from "./TextArea.jsx";
-import Button from "./Button.jsx";
+import TextArea from "./TextArea.js";
+import Button from "./Button.js";
 
 function WriteComment({ className = "",value,setValue, handleClick }) {
   const handleChange = (e) => {

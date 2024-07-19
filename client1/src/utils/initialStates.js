@@ -14,7 +14,7 @@ export const initialRegistrationFormData = {
   dob: "",
   gender: "prefer not to say",
   mobile: "",
-  passwordError:"",
+  password:"",
   confirmPassword:"",
   userType:"patient"
 };

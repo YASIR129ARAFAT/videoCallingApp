@@ -11,8 +11,7 @@ const { asyncHandler } = require('../utils/asyncHandler');
 exports.getUser = asyncHandler(async (req, res) => {
     const _id = req.params?.id;
 
-    const users = await User.findById(_id).select('-password -refreshToken')
-        .populate("branch", "branchName branchCode")
+    const users = await User.findById(_id).select('-password')
         .exec()
 
     // console.log(users);
@@ -25,7 +24,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
     const id = req.params?.id;
     let updatedValues = req.body;
 
-    // console.log(id);
+    console.log(req.body);
 
 
     // trim all values of the formData
@@ -39,11 +38,12 @@ exports.updateUser = asyncHandler(async (req, res) => {
     let flag = 0;
     let error = {}
     Object.entries(updatedValues).forEach(([key, value]) => {
-        if (key!=='resume' && value === "") {
+        if (value === "") {
             const newKey = key.toString() + "Error";
             error = { ...error, [newKey]: `${key} can't be empty` };
             flag++;
         }
+
 
     });
 
@@ -70,7 +70,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
         updatedValues.image = url;
     }
 
-    
+
 
 
 
@@ -86,11 +86,10 @@ exports.updateUser = asyncHandler(async (req, res) => {
 exports.getLoggedInUserDetails = asyncHandler(async (req, res) => {
 
     const { _id } = req.user;
-
+    // console.log("here",_id);
     let data = await User.findById(_id)
-        .populate("branch", "branchName branchCode")
-        .select(" -password -refreshToken ");
-
+        .select(" -password");
+    // console.log(data);
     res.json(data);
 })
 
@@ -175,4 +174,8 @@ exports.changePassword = asyncHandler(async (req, res) => {
         })
     }
 
+})
+
+exports.check = asyncHandler(async (req, res) => {
+    res.json({ h: "sdsd" });
 })

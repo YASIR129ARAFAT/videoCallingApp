@@ -55,7 +55,7 @@ function getForgotPasswordHtml(resetLink) {
     </div>
     <div class="content">
         <p>Dear User,</p>
-        <p>We received a request to reset the password for your Placements Drive account. If you didn't make this request, please ignore this email.</p>
+        <p>We received a request to reset the password for your TeleMed account. If you didn't make this request, please ignore this email.</p>
         
         <div class="reset-link">
             <h2>Reset Your Password</h2>
@@ -76,7 +76,7 @@ function getForgotPasswordHtml(resetLink) {
             <li>Never share your password with anyone.</li>
         </ul>
         
-        <p>Best regards,<br>The Placements Drive Team</p>
+        
     </div>
 </body>
 </html>`

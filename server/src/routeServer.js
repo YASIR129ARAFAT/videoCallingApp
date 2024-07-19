@@ -87,3 +87,10 @@ app.get('/pro-token', async (req, res) => {
 
 
 
+const { authMiddleware } = require('./middlewares/auth.middleware.js')
+
+const { userRoute } = require('./routes/user.route.js')
+const { authRoute } = require('./routes/auth.route.js');
+
+app.use('/auth', authRoute);
+app.use('/user',authMiddleware, userRoute);

@@ -1,5 +1,6 @@
 const express = require('express');
 const { 
+    check,
     getUser,
     updateUser,
     changePassword,
@@ -45,7 +46,7 @@ router
     ]), 
     updateUser
 )
-
+.get('/check',check)
 
 
 

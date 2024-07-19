@@ -6,14 +6,18 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 
-
 function LoginPage() {
   let navigate = useNavigate();
-  const [loading,setLoading] = useState(0);
-  const [formVal, setFormVal] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(0);
+  const [formVal, setFormVal] = useState({
+    email: "",
+    password: "",
+    // userType: "patient",
+  });
   const [error, setError] = useState({
     emailError: "",
     passwordError: "",
+    // userTypeError: "",
     otherError: "",
   });
   function handleChange(e) {
@@ -22,23 +26,26 @@ function LoginPage() {
     // console.log(name);
     setError({ ...error, [name]: "", otherError: "" });
     setFormVal({ ...formVal, [e.target.name]: e.target.value });
+    // console.log(formVal);
   }
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
       setLoading(1);
-      const res = await axios.post("http://localhost:3000/auth/login", formVal);
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
+        formVal
+      );
       setLoading(0);
-      
+
       setFormVal({ email: "", password: "" });
       setError({ ...error, ...res.data.error });
       // window.location.href = `http://localhost:5173/allannouncements`
-      if(res?.data?.success===1){
-        localStorage.setItem('token',res.data?.user?.token)
-        navigate('/allannouncements')
+      if (res?.data?.success === 1) {
+        localStorage.setItem("token", res.data?.user?.token);
+        navigate("/dashboard");
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -111,6 +118,36 @@ function LoginPage() {
                   </p>
                 )}
               </div>
+
+              {/* userType */}
+              {/*
+                <div>
+                <label
+                  htmlFor="userType"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  User Type
+                </label>
+                <select
+                  id="userType"
+                  name="userType"
+                  onChange={handleChange}
+                  value={formVal.userType}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option defaultValue="patient">patient</option>
+                  <option value="professional">Doctor</option>
+                </select>
+                {error.userTypeError !== "" && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span className="font-medium">Oops!</span>{" "}
+                    {error.userTypeError}
+                  </p>
+                )}
+              </div>
+                
+                */}
+
               <div className="">
                 {/* <div className="flex items-start">
                   <div className="flex items-center h-5">
@@ -139,13 +176,14 @@ function LoginPage() {
                   Forgot password?
                 </Link>
               </div>
+
               <Button
                 type="submit"
                 onClick={handleSubmit}
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 <div className="flex flex-row justify-center">
-                  <Spinner text={"Sign in"} loading={loading} ></Spinner>
+                  <Spinner text={"Sign in"} loading={loading}></Spinner>
                 </div>
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">

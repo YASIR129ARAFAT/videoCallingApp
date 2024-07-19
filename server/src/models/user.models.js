@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
-const constants = require('../constants.js');
 const jwt = require('jsonwebtoken');
 
 
@@ -50,7 +49,7 @@ const UserSchema = new Schema(
 // .pre is a middleware that runs a given function just before the specified event
 UserSchema.pre("save", async function (next) { // the arrow function will not work here because it does not have "this" (current context) in its params
     if (this?.isModified("password") === true) { // isModified is a built in function that keeps track of modified fields.
-        this.password = await bcrypt.hash(this.password, constants.bcrypt_salt_rounds);
+        this.password = await bcrypt.hash(this.password, 10);
     }
     next();
 
