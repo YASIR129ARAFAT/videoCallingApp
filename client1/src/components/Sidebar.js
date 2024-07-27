@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
-import { GrTableAdd } from "react-icons/gr";
-import { MdGroupAdd } from "react-icons/md";
+import { FaUserDoctor } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 import {
   FaUser,
@@ -19,19 +17,22 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
   const sidebarUncollapsedText = [
     "My Profile",
     "Appointments",
-    // "Doctor's Profile",
-    "Update Profile"
+    "All Patients",
+    "Doctors",
+    "Update Password"
   ];
   const correspondingPaths = [
     "/userprofile",
     "/dashboard",
-    // "/alldoctors",
-    "/updateprofile"
+    "/allpatients",
+    "/alldoctors",
+    `/changePassword`
   ];
   const sidebarCollapsedText = [
     <FaUser />,
     <FaBell />,
-    // <FaUserShield />,
+    <FaUsers/>,
+    <FaUserDoctor />,
     <IoIosSettings/>
 
   ];
@@ -57,16 +58,16 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
 
   return (
     <>
-      <nav className="border-b-2 h-20 border-blue-700 fixed top-0 left-0 right-0 bg-white dark:bg-gray-900">
+      <nav className="border-b-2 h-20 border-red-700 fixed top-0 left-0 right-0 bg-white dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             to={`/dashboard`}
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src={'../../public/logo.png'}
               className="h-8"
-              alt="Flowbite Logo"
+              alt="Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Tele-Medicine
@@ -75,13 +76,13 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
 
           <div className="flex flex-row items-center space-x-3">
             <span
-              className=" text-gray-900 rounded hover:bg-blue-700 hover:text-white dark:text-white dark:hover:text-blue-500 sm:inline"
+              className=" text-gray-900 rounded hover:bg-red-700 hover:text-white dark:text-white dark:hover:text-red-500 sm:inline"
             >
               {loggedInUserDetails?.name}
             </span>
 
             <img
-              className="w-12 h-12 flex rounded-full items-center justify-center border-2 border-blue-700"
+              className="w-12 h-12 flex rounded-full items-center justify-center border-2 border-red-700"
               src={loggedInUserDetails?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`}
               alt="profile pic"
             />
@@ -89,15 +90,15 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
         </div>
       </nav>
 
-      <div className="w-full h-full flex bg-blue-50">
+      <div className="w-full h-full flex bg-red-50">
         <div
-          className={`overflow-y-auto border-r-2 mt-20 overflow-hidden h-screen border-blue-700 bg-white ${
+          className={`overflow-y-auto border-r-2 mt-20 overflow-hidden h-screen border-red-700 bg-white ${
             isCollapsed === 1 ? "w-[10%]" : "w-[20%]"
           }`}
         >
           <Link
             onClick={handleClick}
-            className="mt-2 text-black overflow-hidden py-3 w-full flex justify-center text-center rounded-xl hover:bg-blue-500 hover:text-white "
+            className="mt-2 text-black overflow-hidden py-3 w-full flex justify-center text-center rounded-xl hover:bg-red-500 hover:text-white "
           >
             {isCollapsed === 0 ? (
               <FaArrowAltCircleLeft className="h-4 w-4" />
@@ -115,9 +116,9 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
                 <div key={path}>
                   <Link to={path} key={path}>
                     <div
-                      className={`overflow-hidden py-3 w-full text-center rounded-xl hover:bg-blue-500 hover:text-white flex justify-center ${
+                      className={`overflow-hidden py-3 w-full text-center rounded-xl hover:bg-red-500 hover:text-white flex justify-center ${
                         location.pathname === path
-                          ? "bg-blue-500 text-white "
+                          ? "bg-red-500 text-white "
                           : ""
                       }`}
                     >
@@ -134,7 +135,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
             <>
               <button onClick={clickLogout} key={"/signout"}>
                 <div
-                  className={`overflow-hidden py-3 w-full text-center rounded-xl hover:bg-blue-500 hover:text-white flex justify-center `}
+                  className={`overflow-hidden py-3 w-full text-center rounded-xl hover:bg-red-500 hover:text-white flex justify-center `}
                 >
                   {isCollapsed === 1 ? <FaSignOutAlt /> : "sign-out"}
                 </div>
@@ -145,7 +146,7 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
         </div>
 
         <div
-          className={`md:w-full sm:w-full bg-blue-50 p-4 h-screen ${
+          className={`md:w-full sm:w-full bg-red-50 p-4 h-screen ${
             isCollapsed === 1 ? "w-[90%]" : "w-[80%]"
           } overflow-y-auto `}
         >

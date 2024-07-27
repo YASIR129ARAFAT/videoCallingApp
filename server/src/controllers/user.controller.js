@@ -14,7 +14,7 @@ exports.getUser = asyncHandler(async (req, res) => {
     const users = await User.findById(_id).select('-password')
         .exec()
 
-    // console.log(users);
+    // console.log("users");
 
     res.json(users);
 
@@ -91,6 +91,29 @@ exports.getLoggedInUserDetails = asyncHandler(async (req, res) => {
         .select(" -password");
     // console.log(data);
     res.json(data);
+})
+
+exports.getAllUser = asyncHandler(async (req, res) => {
+    // console.log('hii');
+
+    let getProfessionalOnly = req.params?.getProfessionalOnly
+    getProfessionalOnly = (getProfessionalOnly === "false") ? (false) : (true);
+    console.log(getProfessionalOnly);
+     
+    if (getProfessionalOnly === true) {
+        // console.log("hiii from boolean");
+        const users = await User.find({ userType: "professional" });
+
+        res.json(users);
+    }
+    else {
+        const users = await User.find({ userType: "patient" });
+
+        res.json(users);
+    }
+
+
+
 })
 
 
@@ -176,6 +199,3 @@ exports.changePassword = asyncHandler(async (req, res) => {
 
 })
 
-exports.check = asyncHandler(async (req, res) => {
-    res.json({ h: "sdsd" });
-})

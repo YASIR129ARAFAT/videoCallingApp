@@ -7,7 +7,7 @@ function MessageCard({ className = "", children, obj }) {
   // console.log(obj);
   return (
     <div
-      className={`h-fit mt-4 sm:w-full md:w-[100%] border bg-white rounded-lg p-4 border-blue-100 ${className}`}
+      className={`h-fit mt-4 sm:w-full md:w-[100%] border bg-white rounded-lg p-4 border-red-100 ${className}`}
     >
       <div className="flex flex-auto items-center">
         <img src={obj?.writer?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`} alt="pic" className="w-8 h-8 rounded-full" />
@@ -54,7 +54,7 @@ function MessageCard({ className = "", children, obj }) {
           </div>
           <div>
             <b>Form Link: </b>{" "}
-            <Link className="text-blue-500" to={obj?.formlink}>
+            <Link className="text-red-500" to={obj?.formlink}>
               Here
             </Link>{" "}
           </div>

@@ -94,7 +94,7 @@ function RegistrationPage() {
       )}
       {/* <div className="mb-10 ml-4">
         <Link className="rounded-2xl m-2 p-2 " to={`/userprofile`}>
-          <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
+          <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-red-700 rounded-md" />
         </Link>
       </div> */}
 
@@ -131,7 +131,7 @@ function RegistrationPage() {
                   id="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   placeholder="name@company.com"
                   required=""
                 />
@@ -157,7 +157,7 @@ function RegistrationPage() {
                   id="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   placeholder="John Doe"
                 />
                 {errorMessage.nameError !== "" && (
@@ -182,7 +182,7 @@ function RegistrationPage() {
                   id="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   placeholder="......"
                 />
                 {errorMessage.passwordError !== "" && (
@@ -207,7 +207,7 @@ function RegistrationPage() {
                   id="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   placeholder="......"
                 />
                 {errorMessage.confirmPasswordError !== "" && (
@@ -233,7 +233,7 @@ function RegistrationPage() {
                   value={formData.mobile}
                   onChange={handleChange}
                   placeholder="eg. 7382976363"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                 />
                 {errorMessage.mobileError !== "" && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -256,7 +256,7 @@ function RegistrationPage() {
                   name="userType"
                   onChange={handleChange}
                   value={formData.userType}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                 >
                   <option defaultValue="patient">Patient</option>
                   <option value="professional">Doctor</option>
@@ -283,7 +283,7 @@ function RegistrationPage() {
                   id="dob"
                   value={formData.dob}
                   onChange={handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   placeholder="DOB"
                 />
                 {errorMessage.dobError !== "" && (
@@ -307,7 +307,7 @@ function RegistrationPage() {
                   name="gender"
                   onChange={handleChange}
                   value={formData.gender}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                 >
                   <option defaultValue="prefer not to say">
                     prefer not to say
@@ -351,7 +351,7 @@ function RegistrationPage() {
 
               <Button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
               >
                 <div className="flex flex-row justify-center">
                   <Spinner
@@ -365,7 +365,7 @@ function RegistrationPage() {
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  className="font-medium text-red-600 hover:underline dark:text-red-500"
                 >
                   Login here
                 </Link>

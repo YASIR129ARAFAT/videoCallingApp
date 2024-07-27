@@ -210,6 +210,8 @@ exports.resetFinalForgotPassword = asyncHandler(async (req, res) => {
     const { id, token } = req.params
     let { confirmPassword, password } = req.body
 
+    // console.log("inside",req.params);
+
     confirmPassword = confirmPassword.trim().trimStart()
     password = password.trim().trimStart()
 
@@ -232,6 +234,7 @@ exports.resetFinalForgotPassword = asyncHandler(async (req, res) => {
         return;
     }
 
+    // console.log("caaa");
     // verify token
     const secret = process.env.FORGOTPASSWORD_JWT_SECRET + user.password
 
@@ -244,6 +247,8 @@ exports.resetFinalForgotPassword = asyncHandler(async (req, res) => {
 
     user.password = password
     await user.save({ validateBeforeSave: false })
+
+    // console.log("daaa");
 
     res.json({ success: 1, message: "Password Changed Successfully!!!" })
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import Spinner from "../components/Spinner";
 import React, { useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { IoMdDoneAll } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 
@@ -17,7 +17,7 @@ function ResetPasswordPage() {
   const { id } = useParams();
   const token = searchParams.get("token")
 
-//   console.log(id,token);
+  //   console.log(id,token);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -43,11 +43,12 @@ function ResetPasswordPage() {
         }, 6000);
       }
     } catch (error) {
-        console.log(error);
+      console.log(error);
       setErrorMessage("Internal Server Error");
       setTimeout(() => {
         setErrorMessage("");
       }, 6000);
+      setLoading(0)
     }
   }
 
@@ -76,7 +77,7 @@ function ResetPasswordPage() {
               src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
               alt="logo"
             />
-            P-Cell Web
+            MediConnect
           </div>
           <div className="w-full p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
             <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -95,7 +96,7 @@ function ResetPasswordPage() {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   required=""
                   value={password}
                   onChange={(e) => {
@@ -116,7 +117,7 @@ function ResetPasswordPage() {
                   name="confirm-password"
                   id="confirm-password"
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   required=""
                   value={confirmPassword}
                   onChange={(e) => {
@@ -125,12 +126,15 @@ function ResetPasswordPage() {
                   }}
                 />
               </div>
-
+              <div className="ml-2">
+                <Link className="text-red-700 underline text-sm" to='/login'>Login Here</Link>
+              </div>
               <button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                 onClick={handleSubmit}
               >
+
                 <div className="flex flex-row justify-center">
                   <Spinner text={"Reset Password"} loading={loading} />
                 </div>
@@ -138,6 +142,7 @@ function ResetPasswordPage() {
             </form>
           </div>
         </div>
+
       </section>
     </>
   );

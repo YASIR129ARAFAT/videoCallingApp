@@ -20,7 +20,10 @@ import ForgotPassword from './pages/ForgotPassword.js';
 import UserProfilePage from './pages/UserProfilePage.js';
 import UpdateUserDataPage from './pages/UpdateUserDataPage.js';
 import ResetPasswordPage from './pages/ResetPasswordPage.js';
-
+import AllUsersPage from './pages/AllUsersPage.js';
+import AllDoctorsPage from './pages/AllDoctorsPage.js';
+import OtherUserProfilePage from './pages/OtherUserProfilePage.js';
+import ChangePasswordPage from './pages/ChangePasswordPage.js';
 // import socket from './webRTCutilities/socketConnection.js';
 
 const router = createBrowserRouter(
@@ -29,11 +32,15 @@ const router = createBrowserRouter(
       <Route path="/join-video" element={<MainVideoPage />} />
       <Route path="/join-video-pro" element={<ProMainVideoPage />} />
       <Route path="dashboard" element={<Dashboard />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegistrationPage />} />
-      <Route path="/forgotpassword" element={<ForgotPassword />} />
-      <Route path="/userprofile" element={<UserProfilePage />} />
-      <Route path="/updateUser/:id" element={<UpdateUserDataPage />} />
+      <Route path="login" element={<LoginPage />} />
+      <Route path="register" element={<RegistrationPage />} />
+      <Route path="allpatients" element={<AllUsersPage/>}/>
+      <Route path="alldoctors" element={<AllDoctorsPage/>}/>
+      <Route path="changePassword" element={<ChangePasswordPage/>} />
+      <Route path="forgotpassword" element={<ForgotPassword />} />
+      <Route path="userprofile" element={<UserProfilePage />} />
+      <Route path="otheruserprofile/:id" element={<OtherUserProfilePage/>} />
+      <Route path="updateUser/:id" element={<UpdateUserDataPage />} />
       <Route path="reset/:id" element={<ResetPasswordPage/>}/>
     </Route>
   )

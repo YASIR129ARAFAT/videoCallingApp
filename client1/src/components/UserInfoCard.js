@@ -36,7 +36,7 @@ function UserInfoCard({ className = "", userData, children }) {
                 </p>
               </h1>
               <img
-                className="w-16 h-16 rounded-full border border-s border-blue-400 mr-4"
+                className="w-16 h-16 rounded-full border border-s border-red-400 mr-4"
                 src={userData?.image || `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`}
                 alt="user"
               />
@@ -69,7 +69,7 @@ function UserInfoCard({ className = "", userData, children }) {
                 </div>
                 <div className="w-1/2 px-0 mb-0">
                   <p className="text-lg font-medium text-gray-900 dark:text-white">
-                    <b>Mobie No:</b> {userData?.mobile}
+                    <b>Mobie No:</b>{userData?.mobile}
                   </p>
                 </div>
                 <div className="mb-2"></div> {/* Adjusted spacing */}
@@ -80,7 +80,7 @@ function UserInfoCard({ className = "", userData, children }) {
               {userData?._id === loggedInUserDetails?._id && (
                 <Link
                   to={`/updateUser/${userData?._id}`}
-                  className="w-30 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-30 text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                 >
                   Edit details
                 </Link>

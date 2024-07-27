@@ -68,7 +68,7 @@ function ForgotPassword() {
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Remember your password?
                 <Link
-                  className="text-blue-600 decoration-2 hover:underline font-medium"
+                  className="text-red-600 decoration-2 hover:underline font-medium"
                   to={"/login"}
                 >
                   Login here
@@ -91,7 +91,7 @@ function ForgotPassword() {
                         type="email"
                         id="email"
                         name="email"
-                        className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm"
+                        className="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-red-500 focus:ring-red-500 shadow-sm"
                         required
                         aria-describedby="email-error"
                         value={email}
@@ -108,7 +108,7 @@ function ForgotPassword() {
                   </div>
                   <button
                     type="submit"
-                    className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     onClick={handleSubmit}
                   >
                     

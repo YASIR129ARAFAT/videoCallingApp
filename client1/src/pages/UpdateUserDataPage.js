@@ -71,10 +71,10 @@ function UpdateUserDataPage() {
         <div className="mb-10 ml-4">
           
           <Link className="rounded-2xl m-2 p-2 " to={`/userprofile`}>
-            <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-blue-700 rounded-md" />
+            <IoReturnDownBack className=" size-5 hover:text-white  hover:bg-red-700 rounded-md" />
           </Link>
         </div>
-        <div className="flex flex-col items-center mb-10 text-2xl text-blue-800">
+        <div className="flex flex-col items-center mb-10 text-2xl text-red-800">
           Update Your Details
         </div>
         <form className="max-w-sm mx-auto border-2 border-grey-400 bg-gray-50 bg rounded-lg pl-10 pr-10 pt-4 pb-4" encType="multipart/form-data">
@@ -114,7 +114,7 @@ function UpdateUserDataPage() {
               type="email"
               id="email"
               name="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
               placeholder="Enter Your email"
               value={formVal?.email}
               onChange={(e) => {
@@ -138,7 +138,7 @@ function UpdateUserDataPage() {
               type="string"
               id="mobile"
               name="mobile"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
               value={formVal?.mobile}
               onChange={(e) => {
                 handleChange(e, formVal, setError, setFormVal);
@@ -162,7 +162,7 @@ function UpdateUserDataPage() {
               type="date"
               id="dob"
               name="dob"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
               value={formVal?.dob}
               onChange={(e) => {
                 handleChange(e, formVal, setError, setFormVal);
@@ -177,7 +177,7 @@ function UpdateUserDataPage() {
 
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             onClick={(e) => {
               handleSubmit(
                 e,

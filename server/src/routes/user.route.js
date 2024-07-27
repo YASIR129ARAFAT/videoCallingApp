@@ -1,9 +1,9 @@
 const express = require('express');
 const { 
-    check,
     getUser,
     updateUser,
     changePassword,
+    getAllUser,
     getLoggedInUserDetails} = require('../controllers/user.controller.js');
 const { upload } = require('../middlewares/multerFileUpload.middleware.js');
 
@@ -34,6 +34,7 @@ router.get('/loggedInUserDetails',getLoggedInUserDetails);
 router
 .get('/otherUserProfile/:id', getUser)
 .post('/changePassword',changePassword)
+.get('/:getProfessionalOnly', getAllUser)
 .patch('/updateUserDetails/:id', 
         upload.fields([
         {
@@ -46,8 +47,6 @@ router
     ]), 
     updateUser
 )
-.get('/check',check)
-
 
 
 exports.userRoute = router;
