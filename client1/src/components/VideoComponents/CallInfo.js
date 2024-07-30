@@ -9,7 +9,7 @@ const CallInfo = ({apptInfo})=>{
     // console.log(apptInfo);
     useEffect(() => {
         const timeInterval = setInterval(()=>{
-            setMomentText(moment(apptInfo.apptDate).fromNow())
+            setMomentText(moment(apptInfo?.apptDate).fromNow())
             // console.log("Updating time")
         },5000)
         return () => {
@@ -21,7 +21,7 @@ const CallInfo = ({apptInfo})=>{
     return(
         <div className="call-info">
             <h1>
-                {apptInfo?.professionalsFullName} has been notified.<br />
+                {apptInfo?.professionalId?.name} has been notified.<br />
                 Your appointment is {momentText}.
             </h1>
         </div>

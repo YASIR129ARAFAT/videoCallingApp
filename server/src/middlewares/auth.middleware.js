@@ -23,7 +23,7 @@ exports.authMiddleware = asyncHandler(async (req, res, next) => {
     const id = decoded?._id;
 
     // take out the details of the user from the db
-    const user = await User.findById(id).select("-password -refreshToken");
+    const user = await User.findById(id).select("-password");
     
     if(!user){
         throw new Error('unauthorised access!!')

@@ -1,6 +1,6 @@
 
 
-const changeAudioDevice = async (e, addStream, smallFeedEl, callStatus, dispatch, updateCallStatus) => {
+const changeAudioDeviceHandler = async (e, addStream, smallFeedEl, callStatus, dispatch, updateCallStatus) => {
     //audio type specifies 
     try {
         
@@ -44,4 +44,4 @@ const changeAudioDevice = async (e, addStream, smallFeedEl, callStatus, dispatch
     }
 }
 
-export default changeAudioDevice
+export default changeAudioDeviceHandler

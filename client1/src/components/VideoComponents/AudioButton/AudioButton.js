@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import DropDown from "../VideoButton/DropDown.js";
 import getDevices from '../../../webRTCutilities/getDevices.js'
-import changeAudioDevice from "../../../handlers/changeAudioDevice.handler.js";
+
 import updateCallStatus from "../../../redux-elements/actions/updateCallStatus.js"
 import addStream from "../../../redux-elements/actions/addStream.js";
 import startAudioStream from "./startAudioStream.js";

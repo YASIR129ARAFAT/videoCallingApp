@@ -77,8 +77,8 @@ exports.createUser = asyncHandler(async (req, res) => {
     });
     await user.save();
 
-    console.log("userType def: ",typeof userType);
-    console.log("userType: ",userType);
+    // console.log("userType def: ",typeof userType);
+    // console.log("userType: ",userType);
 
     //send email for successfull registration
     const to = email

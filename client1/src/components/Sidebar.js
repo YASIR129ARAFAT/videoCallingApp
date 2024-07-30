@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUserDoctor } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
@@ -6,7 +6,7 @@ import {
   FaUser,
   FaUsers,
   FaBell,
-  FaUserShield,
+  FaHeartbeat,
   FaSignOutAlt,
   FaArrowAltCircleLeft,
   FaArrowAltCircleRight,
@@ -62,16 +62,11 @@ function Sidebar({ children = "", loggedInUserDetails = {} }) {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             to={`/dashboard`}
-            className="flex items-center space-x-3 rtl:space-x-reverse"
+            className="flex items-center rtl:space-x-reverse"
           >
-            <img
-              src={'../../public/logo.png'}
-              className="h-8"
-              alt="Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Tele-Medicine
-            </span>
+            <FaHeartbeat className="text-red-600 text-3xl mr-2" />
+            <span className="font-bold text-red-600 text-xl">Tele</span>
+            <span className="font-bold text-gray-700 text-xl">Care</span>
           </Link>
 
           <div className="flex flex-row items-center space-x-3">

@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+
 import updateCallStatus from "../redux-elements/actions/updateCallStatus";
 
 function proDashboardSocketListeners(socket,setApptInfo,dispatch){
     socket.on('apptData',(data)=>{
         // apptInfo will be a state which will be rendered to display the appts of the professional
-        console.log("recieved");
+        console.log("recieved....",data);
+        
         setApptInfo(data);
     })
     socket.on("newOfferWaiting",(offerData)=>{

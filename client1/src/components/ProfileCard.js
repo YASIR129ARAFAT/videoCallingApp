@@ -45,16 +45,16 @@ function ProfileCard({ userData, loggedInUserDetails, className = "" }) {
             View Profile
           </button>
 
-          <button
+          {loggedInUserDetails?.userType === "professional" && <button
             type="button"
             className="text-white bg-[#eb253c] hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
             onClick={() => {
-
+              navigate(`/addAppointment/${userData?._id}`)
               }
             }
           >
             Add Meet
-          </button>
+          </button>}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoReturnDownBack } from "react-icons/io5";
 
 import Sidebar from "../components/Sidebar.js";
@@ -32,8 +32,14 @@ function ChangePasswordPage() {
 
   useEffect(() => {
     async function loadLoggedInUserDetails() {
-      const data = await getLoggedInUserDetails();
-      setLoggedInUserDetails(data);
+
+      try {
+        const data = await getLoggedInUserDetails();
+        setLoggedInUserDetails(data);
+      } catch (error) {
+        console.log(error);
+        navigate('/login')
+      }
     }
     loadLoggedInUserDetails();
 

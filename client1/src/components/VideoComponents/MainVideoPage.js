@@ -24,14 +24,14 @@ function MainVideoPage() {
     const streams = useSelector(state => state?.streams)
     const smallFeedEl = useRef(null);
     const largeFeedEl = useRef(null);
-    const uniqueIdRef = useRef(null)
+    const _idRef = useRef(null)
     const streamsRef = useRef(null)
     const [showCallInfo,setShowCallInfo] = useState(true);
 
     useEffect(() => {
         const constraints = {
             video: true, // both can't be passed false at the same time
-            audio: false
+            audio: true
         }
         const fetchUserMedia = async () => {
             try {
@@ -66,14 +66,15 @@ function MainVideoPage() {
         const fetchDecodedToken = async () => {
             try {
                 // console.log("attempt started");
-                const resp = await axios.post(`https://localhost:${process.env.REACT_APP_BACKEND_PORT}/verify-link`, { token })
+                const resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/verify-link`, { token })
 
-                console.log(resp?.data);
+                // console.log("main vid data: ",resp?.data);
 
                 setApptInfo(resp?.data)
+                console.log("respp main vid token: ",resp?.data);
 
-                // set the uniqueIDref here so that it can change automatically
-                uniqueIdRef.current = resp?.data?.uniqueId
+                // set the _idref here so that it can change automatically
+                _idRef.current = resp?.data?._id
 
             } catch (error) {
                 console.log(error);
@@ -158,16 +159,16 @@ function MainVideoPage() {
         //emit icecandidates to the server (not professional)
         const token = searchParams.get('token')
         const socket = socketConnection(token);
-        // console.log("ref:: ",uniqueIdRef?.current);
+        // console.log("ref:: ",_idRef?.current);
 
         socket.emit('iceToServer',{
             iceCandidate,
             userType:"client",
-            // uniqueId:apptInfo?.uniqueId, // this will not work as uiqueId might change
-            // we need a way to auto update uniqueId, 
+            // _id:apptInfo?._id, // this will not work as uiqueId might change
+            // we need a way to auto update _id, 
             //that's why we will use useRef hook
-            uniqueId:uniqueIdRef?.current
-            // this will keep uniqueId updated without rerendring
+            _id:_idRef?.current
+            // this will keep _id updated without rerendring
         })
         
 

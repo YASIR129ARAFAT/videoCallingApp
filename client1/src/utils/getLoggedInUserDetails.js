@@ -12,7 +12,7 @@ export const getLoggedInUserDetails = async()=>{
         return response?.data;
     } catch (error) {
         console.log('error in fetching logged in user details');
-
+        throw new Error(error)
         return error?.response?.data
     }
 }

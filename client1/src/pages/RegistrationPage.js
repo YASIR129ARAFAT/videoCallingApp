@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { IoMdDoneAll } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
@@ -7,6 +7,7 @@ import {
   initialRegistrationErrorMessage,
   initialRegistrationFormData,
 } from "../utils/initialStates.js";
+import {FaHeartbeat } from 'react-icons/fa';
 
 import Input from "../components/Input.js";
 import Label from "../components/Label.js";
@@ -103,12 +104,9 @@ function RegistrationPage() {
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
-          <img
-            className="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-            alt="logo"
-          />
-          Tele-Medicine
+        <FaHeartbeat className="text-red-600 text-3xl mr-2" />
+        <span className="font-bold text-red-600 text-xl">Tele</span>
+        <span className="font-bold text-gray-700 text-xl">Care</span>
         </Link>
 
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">

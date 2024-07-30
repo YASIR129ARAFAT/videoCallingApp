@@ -30,7 +30,7 @@ function ProMainVideoPage() {
     useEffect(() => {
         const constraints = {
             video: true, // both cant be passed false at the same time
-            audio: false,
+            audio: true,
         };
         const fetchUserMedia = async () => {
             try {
@@ -101,12 +101,12 @@ function ProMainVideoPage() {
                         dispatch(updateCallStatus("answer", answer));
 
                         const token = searchParams.get("token");
-                        const uniqueId = searchParams.get("uniqueId");
-                        console.log("uniqueId ", uniqueId);
+                        const _id = searchParams.get("_id");
+                        // console.log("_id ", _id);
 
                         const socket = socketConnection(token);
 
-                        socket.emit("newAnswer", { answer, uniqueId });
+                        socket.emit("newAnswer", { answer, _id });
                     }
                 }
             } catch (error) {
@@ -127,13 +127,16 @@ function ProMainVideoPage() {
 
     useEffect(() => {
         const token = searchParams.get("token");
-        setClientName(searchParams.get("client"));
+        const clientName = searchParams.get("client")
+        setClientName(clientName);
+        console.log({clientName});
+
         // console.log(searchParams.get("client"));
         const fetchDecodedToken = async () => {
             try {
                 // console.log("attempt started");
                 const resp = await axios.post(
-                    `https://localhost:${process.env.REACT_APP_BACKEND_PORT}/verify-link`,
+                    `${process.env.REACT_APP_BACKEND_URL}/verify-link`,
                     { token }
                 );
 
@@ -176,13 +179,13 @@ function ProMainVideoPage() {
     const addIce = (iceCandidate) => {
         //emit icecandidates to the server (not client)
         const token = searchParams.get("token");
-        const uniqueId = searchParams.get("uniqueId");
+        const _id = searchParams.get("_id");
         const socket = socketConnection(token);
-
+        console.log({token,_id});
         socket.emit("iceToServer", {
             iceCandidate,
             userType: "professional",
-            uniqueId,
+            _id,
         });
     };
 
@@ -190,14 +193,14 @@ function ProMainVideoPage() {
         async function getIceCandidates() {
             try {
                 const token = searchParams.get("token");
-                const uniqueId = searchParams.get("uniqueId");
+                const _id = searchParams.get("_id");
 
                 const socket = socketConnection(token);
                 const iceCandidates = await socket.emitWithAck(
                     "getIce",
-                    uniqueId,
+                    _id,
                     "professional"
-                ); // userType and uniqueId sent
+                ); // userType and _id sent
                 console.log("iceCandidates recieved in acknowledgement: ");
                 console.log(iceCandidates);
 

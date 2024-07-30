@@ -1,9 +1,11 @@
 import axios from "axios";
 import Spinner from "../components/Spinner";
-import React, { useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { IoMdDoneAll } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
+import { FaHeartbeat } from 'react-icons/fa';
+import { getLoggedInUserDetails } from "../utils/getLoggedInUserDetails";
 
 
 function ResetPasswordPage() {
@@ -13,11 +15,12 @@ function ResetPasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(0);
   let [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate()
   const { id } = useParams();
   const token = searchParams.get("token")
 
   //   console.log(id,token);
+  
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -72,12 +75,9 @@ function ResetPasswordPage() {
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            <img
-              className="w-8 h-8 mr-2"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-              alt="logo"
-            />
-            MediConnect
+          <FaHeartbeat className="text-red-600 text-3xl mr-2" />
+          <span className="font-bold text-red-600 text-xl">Tele</span>
+          <span className="font-bold text-gray-700 text-xl">Care</span>
           </div>
           <div className="w-full p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
             <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

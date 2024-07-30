@@ -14,8 +14,6 @@ exports.getUser = asyncHandler(async (req, res) => {
     const users = await User.findById(_id).select('-password')
         .exec()
 
-    // console.log("users");
-
     res.json(users);
 
 })
@@ -70,12 +68,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
         updatedValues.image = url;
     }
 
-
-
-
-
     //    console.log("final val",updatedValues);
-
 
     const user = await User.findByIdAndUpdate(id, updatedValues, { new: true });
     res.json({ success: 1, user, error })
