@@ -1,5 +1,7 @@
 const { Appointment } = require("../models/appointment.models");
 const { asyncHandler } = require("../utils/asyncHandler");
+const sendAppointmentScheduleEmail = require("../utils/Mails/AppointmentScheduleEmails/appointmentScheduleEmail");
+const getAppointmentScheduledHtml = require("../utils/Mails/AppointmentScheduleEmails/htmlAppointmentSchedule");
 
 exports.addAppointment = asyncHandler(async (req, res) => {
   console.log("dsd", req.body);
@@ -45,6 +47,15 @@ exports.addAppointment = asyncHandler(async (req, res) => {
                         });
 
   //add an email functionality to inform client about appointment booking
+  const to = apptData?.clientId?.email
+  const subject = `Appointment Scheduled Successfully`
+  const text = ``
+  const html = getAppointmentScheduledHtml(apptData)
+
+  console.log(to,subject,html);
+
+  // console.log("dhjsbdsv::","info");
+  const info = await sendAppointmentScheduleEmail(to, subject, text, html);
 
   res.json({ success: 1, apptData });
 });
