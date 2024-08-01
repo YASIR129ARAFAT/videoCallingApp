@@ -52,7 +52,7 @@ exports.addAppointment = asyncHandler(async (req, res) => {
   const text = ``
   const html = getAppointmentScheduledHtml(apptData)
 
-  console.log(to,subject,html);
+  // console.log(to,subject,html);
 
   // console.log("dhjsbdsv::","info");
   const info = await sendAppointmentScheduleEmail(to, subject, text, html);
